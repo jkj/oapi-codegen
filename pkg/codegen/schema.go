@@ -548,7 +548,7 @@ func oapiSchemaToGoType(schema *openapi3.Schema, path []string, outSchema *Schem
 		outSchema.GoType = "[]" + arrayType.TypeDecl()
 		outSchema.AdditionalTypes = arrayType.AdditionalTypes
 		outSchema.Properties = arrayType.Properties
-		outSchema.DefineViaAlias = true
+		outSchema.DefineViaAlias = false
 	case "integer":
 		// We default to int if format doesn't ask for something else.
 		if f == "int64" {
