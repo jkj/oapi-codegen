@@ -23,7 +23,8 @@ type ctxKeyFiberContext struct{}
 type ctxKeyUserData struct{}
 
 // OapiValidatorFromYamlFile creates a validator middleware from a YAML file path
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#OapiValidatorFromYamlFile
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#OapiValidatorFromYamlFile
 func OapiValidatorFromYamlFile(path string) (fiber.Handler, error) {
 
 	data, err := os.ReadFile(path)
@@ -43,22 +44,26 @@ func OapiValidatorFromYamlFile(path string) (fiber.Handler, error) {
 // OapiRequestValidator is a fiber middleware function which validates incoming HTTP requests
 // to make sure that they conform to the given OAPI 3.0 specification. When
 // OAPI validation fails on the request, we return an HTTP/400 with error message
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#OapiRequestValidator
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#OapiRequestValidator
 func OapiRequestValidator(swagger *openapi3.T) fiber.Handler {
 	return OapiRequestValidatorWithOptions(swagger, nil)
 }
 
 // ErrorHandler is called when there is an error in validation
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#ErrorHandler
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#ErrorHandler
 type ErrorHandler func(c *fiber.Ctx, message string, statusCode int)
 
 // MultiErrorHandler is called when oapi returns a MultiError type
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#MultiErrorHandler
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#MultiErrorHandler
 type MultiErrorHandler func(openapi3.MultiError) error
 
 // Options to customize request validation. These are passed through to
 // openapi3filter.
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#Options
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#Options
 type Options struct {
 	Options           openapi3filter.Options
 	ErrorHandler      ErrorHandler
@@ -68,7 +73,8 @@ type Options struct {
 }
 
 // OapiRequestValidatorWithOptions creates a validator from a swagger object, with validation options
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#OapiRequestValidatorWithOptions
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#OapiRequestValidatorWithOptions
 func OapiRequestValidatorWithOptions(swagger *openapi3.T, options *Options) fiber.Handler {
 
 	router, err := gorillamux.NewRouter(swagger)
@@ -95,7 +101,8 @@ func OapiRequestValidatorWithOptions(swagger *openapi3.T, options *Options) fibe
 
 // ValidateRequestFromContext is called from the middleware above and actually does the work
 // of validating a request.
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#ValidateRequestFromContext
 func ValidateRequestFromContext(c *fiber.Ctx, router routers.Router, options *Options) error {
 
 	r, err := adaptor.ConvertRequest(c, false)
@@ -164,7 +171,8 @@ func ValidateRequestFromContext(c *fiber.Ctx, router routers.Router, options *Op
 
 // GetFiberContext gets the fiber context from within requests. It returns
 // nil if not found or wrong type.
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#GetFiberContext
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#GetFiberContext
 func GetFiberContext(c context.Context) *fiber.Ctx {
 	iface := c.Value(ctxKeyFiberContext{})
 	if iface == nil {
@@ -178,14 +186,15 @@ func GetFiberContext(c context.Context) *fiber.Ctx {
 	return nil
 }
 
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#GetUserData
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#GetUserData
 func GetUserData(c context.Context) interface{} {
 	return c.Value(ctxKeyUserData{})
 }
 
 // getMultiErrorHandlerFromOptions attempts to get the MultiErrorHandler from the options. If it is not set,
 // return a default handler
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#getMultiErrorHandlerFromOptions
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#getMultiErrorHandlerFromOptions
 func getMultiErrorHandlerFromOptions(options *Options) MultiErrorHandler {
 	if options == nil {
 		return defaultMultiErrorHandler
@@ -201,7 +210,7 @@ func getMultiErrorHandlerFromOptions(options *Options) MultiErrorHandler {
 // defaultMultiErrorHandler returns a StatusBadRequest (400) and a list
 // of all the errors. This method is called if there are no other
 // methods defined on the options.
-// Deprecated: This has been replaced by github.com/oapi-codegen/fiber-middleware#defaultMultiErrorHandler
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/fiber-middleware#defaultMultiErrorHandler
 func defaultMultiErrorHandler(me openapi3.MultiError) error {
 	return fmt.Errorf("multiple errors encountered: %s", me)
 }

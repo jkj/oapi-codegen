@@ -21,7 +21,8 @@ const (
 )
 
 // OapiValidatorFromYamlFile creates a validator middleware from a YAML file path
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#OapiValidatorFromYamlFile
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#OapiValidatorFromYamlFile
 func OapiValidatorFromYamlFile(path string) (iris.Handler, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -40,22 +41,26 @@ func OapiValidatorFromYamlFile(path string) (iris.Handler, error) {
 // OapiRequestValidator is a iris middleware function which validates incoming HTTP requests
 // to make sure that they conform to the given OAPI 3.0 specification. When
 // OAPI validation fails on the request, we return an HTTP/400 with error message
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#OapiRequestValidator
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#OapiRequestValidator
 func OapiRequestValidator(swagger *openapi3.T) iris.Handler {
 	return OapiRequestValidatorWithOptions(swagger, nil)
 }
 
 // ErrorHandler is called when there is an error in validation
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#ErrorHandler
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#ErrorHandler
 type ErrorHandler func(ctx iris.Context, message string, statusCode int)
 
 // MultiErrorHandler is called when oapi returns a MultiError type
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#MultiErrorHandler
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#MultiErrorHandler
 type MultiErrorHandler func(openapi3.MultiError) error
 
 // Options to customize request validation. These are passed through to
 // openapi3filter.
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#Options
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#Options
 type Options struct {
 	Options           openapi3filter.Options
 	ErrorHandler      ErrorHandler
@@ -67,7 +72,8 @@ type Options struct {
 }
 
 // OapiRequestValidatorWithOptions creates a validator from a swagger object, with validation options
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#OapiRequestValidatorWithOptions
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#OapiRequestValidatorWithOptions
 func OapiRequestValidatorWithOptions(swagger *openapi3.T, options *Options) iris.Handler {
 	router, err := gorillamux.NewRouter(swagger)
 	if err != nil {
@@ -89,7 +95,8 @@ func OapiRequestValidatorWithOptions(swagger *openapi3.T, options *Options) iris
 
 // ValidateRequestFromContext is called from the middleware above and actually does the work
 // of validating a request.
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#ValidateRequestFromContext
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#ValidateRequestFromContext
 func ValidateRequestFromContext(ctx iris.Context, router routers.Router, options *Options) error {
 	req := ctx.Request()
 	route, pathParams, err := router.FindRoute(req)
@@ -152,7 +159,8 @@ func ValidateRequestFromContext(ctx iris.Context, router routers.Router, options
 
 // GetIrisContext gets the iris context from within requests. It returns
 // nil if not found or wrong type.
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#GetIrisContext
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#GetIrisContext
 func GetIrisContext(ctx context.Context) iris.Context {
 	iface := ctx.Value(IrisContextKey)
 	if iface == nil {
@@ -166,14 +174,15 @@ func GetIrisContext(ctx context.Context) iris.Context {
 	return nil
 }
 
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#GetUserData
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#GetUserData
 func GetUserData(ctx context.Context) interface{} {
 	return ctx.Value(UserDataKey)
 }
 
 // getMultiErrorHandlerFromOptions attempts to get the MultiErrorHandler from the options. If it is not set,
 // return a default handler
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#getMultiErrorHandlerFromOptions
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#getMultiErrorHandlerFromOptions
 func getMultiErrorHandlerFromOptions(options *Options) MultiErrorHandler {
 	if options == nil {
 		return defaultMultiErrorHandler
@@ -189,7 +198,8 @@ func getMultiErrorHandlerFromOptions(options *Options) MultiErrorHandler {
 // defaultMultiErrorHandler returns a StatusBadRequest (400) and a list
 // of all the errors. This method is called if there are no other
 // methods defined on the options.
-// Deprecated: This has been replaced by github.com/oapi-codegen/iris-middleware#defaultMultiErrorHandler
+//
+// Deprecated: This has been replaced by https://pkg.go.dev/github.com/oapi-codegen/iris-middleware#defaultMultiErrorHandler
 func defaultMultiErrorHandler(me openapi3.MultiError) error {
 	return fmt.Errorf("multiple errors encountered: %s", me)
 }
